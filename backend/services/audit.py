@@ -60,6 +60,14 @@ class AuditService:
             .order_by(AuditLog.created_at.asc())
         ).all()
 
+        # Build map of action_data from audit_entries
+        action_data_map: Dict[int, Dict[str, Any]] = {}
+        for a in audit_entries:
+            if isinstance(a.payload, dict) and "recommendation_id" in a.payload:
+                rec_id = a.payload.get("recommendation_id")
+                if rec_id and "action_data" in a.payload:
+                    action_data_map[rec_id] = a.payload.get("action_data", {})
+
         timeline: List[Dict[str, Any]] = []
         approved_cnt = 0
         blocked_cnt = 0
@@ -118,6 +126,7 @@ class AuditService:
                     "recommendation_id": r.id,
                     "decision_id": dec.id if dec else None,
                     "proposed_action": r.proposed_action,
+                    "action_data": action_data_map.get(r.id, {}),
                 }
             })
 

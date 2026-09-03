@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useCart } from '../context/CartContext';
 import * as api from '../api';
 import DecisionLedger from '../components/DecisionLedger';
-import { Shield, Download, RefreshCw, Layers, CheckCircle2, AlertTriangle, AlertOctagon, TrendingUp, DollarSign, Percent, ShieldCheck } from 'lucide-react';
+import { Shield, Download, RefreshCw, Layers, CheckCircle2, AlertTriangle, AlertOctagon, TrendingUp, DollarSign, Percent, ShieldCheck, FileSpreadsheet } from 'lucide-react';
 
 export default function AuditView() {
   const { sessionId: activeSessionId } = useCart();
@@ -74,6 +74,56 @@ export default function AuditView() {
     URL.revokeObjectURL(url);
   };
 
+  const handleExportCSV = () => {
+    if (!sessionAuditData || !timeline.length) return;
+
+    const headers = [
+      'Timestamp',
+      'Time',
+      'Action',
+      'Summary',
+      'Verdict',
+      'Rule_Triggered',
+      'Justification',
+      'Proposed_Value',
+      'Applied_Value',
+      'Weighted_Margin_Pct',
+      'Subtotal',
+    ];
+
+    const escapeCsv = (val) => {
+      if (val === null || val === undefined) return '""';
+      const str = String(val).replace(/"/g, '""');
+      return `"${str}"`;
+    };
+
+    const rows = timeline.map((entry) => {
+      const actionData = entry.payload?.action_data || {};
+      return [
+        escapeCsv(entry.timestamp),
+        escapeCsv(entry.time_str),
+        escapeCsv(entry.action),
+        escapeCsv(entry.summary),
+        escapeCsv(entry.decision),
+        escapeCsv(entry.rule_triggered),
+        escapeCsv(entry.reason_text),
+        escapeCsv(actionData.proposed_percent ?? ''),
+        escapeCsv(actionData.applied_percent ?? ''),
+        escapeCsv(actionData.weighted_cart_margin ?? ''),
+        escapeCsv(actionData.new_subtotal ?? actionData.original_subtotal ?? ''),
+      ].join(',');
+    });
+
+    const csvContent = [headers.join(','), ...rows].join('\n');
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `cartmind-audit-${selectedSessionId.slice(0, 8)}.csv`;
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+
   const summary = sessionAuditData?.summary || {};
   const timeline = sessionAuditData?.timeline || [];
 
@@ -121,13 +171,26 @@ export default function AuditView() {
             <RefreshCw className={`w-4 h-4 ${isLoading ? 'animate-spin' : ''}`} />
           </button>
 
+          {/* Export CSV Button */}
+          <button
+            onClick={handleExportCSV}
+            disabled={!sessionAuditData || !timeline.length}
+            className="px-3.5 py-2 rounded-xl bg-panel border border-panel-border hover:border-paper text-paper text-xs font-mono font-medium flex items-center gap-2 transition-all active:scale-95 disabled:opacity-40"
+            title="Export Tabular CSV for Spreadsheets"
+          >
+            <FileSpreadsheet className="w-4 h-4 text-slate" />
+            CSV
+          </button>
+
+          {/* Export JSON Button */}
           <button
             onClick={handleExportJSON}
             disabled={!sessionAuditData}
-            className="px-4 py-2.5 rounded-xl bg-signal-gold text-ink font-bold text-xs uppercase tracking-wider flex items-center gap-2 transition-all hover:opacity-90 active:scale-95 disabled:opacity-40"
+            className="px-4 py-2 rounded-xl bg-signal-gold text-ink font-bold text-xs uppercase tracking-wider flex items-center gap-2 transition-all hover:opacity-90 active:scale-95 disabled:opacity-40"
+            title="Export Complete Structured JSON"
           >
             <Download className="w-4 h-4 stroke-[2.5]" />
-            Export Audit JSON
+            JSON
           </button>
         </div>
       </div>

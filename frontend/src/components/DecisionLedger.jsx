@@ -146,6 +146,69 @@ export default function DecisionLedger({ timeline = [], isFullWidth = false }) {
                       <span className="text-slate font-medium">Justification: </span>
                       <span className="text-paper">{entry.reason_text}</span>
                     </div>
+
+                    {/* Policy Math Transparency Breakdown (PRD §8, TRD §6) */}
+                    {(() => {
+                      const actionData = entry.payload?.action_data || {};
+                      const hasMath = actionData.weighted_cart_margin !== undefined || actionData.proposed_percent !== undefined;
+                      if (!hasMath) return null;
+
+                      return (
+                        <div className="mt-2.5 p-3 rounded-lg bg-panel border border-panel-border space-y-2 text-[11px] font-mono">
+                          <div className="flex items-center justify-between text-slate text-[10px] uppercase font-bold tracking-wider pb-1.5 border-b border-panel-border/50">
+                            <span className="text-signal-gold">POLICY MATH TRANSPARENCY</span>
+                            <span className="text-slate/80">FORMULA: min(Ceiling, Margin - Floor)</span>
+                          </div>
+
+                          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-1">
+                            <div className="bg-ink/60 p-2 rounded border border-panel-border">
+                              <span className="text-slate text-[10px] block">Proposed</span>
+                              <span className="text-paper font-bold text-xs">{actionData.proposed_percent ?? '-'}%</span>
+                            </div>
+                            <div className="bg-ink/60 p-2 rounded border border-panel-border">
+                              <span className="text-slate text-[10px] block">Cart Margin (μ)</span>
+                              <span className="text-signal-gold font-bold text-xs">{actionData.weighted_cart_margin ?? '-'}%</span>
+                            </div>
+                            <div className="bg-ink/60 p-2 rounded border border-panel-border">
+                              <span className="text-slate text-[10px] block">Margin Floor</span>
+                              <span className="text-paper font-bold text-xs">{actionData.margin_floor_pct ?? 10.0}%</span>
+                            </div>
+                            <div className="bg-ink/60 p-2 rounded border border-panel-border">
+                              <span className="text-slate text-[10px] block">Store Ceiling</span>
+                              <span className="text-paper font-bold text-xs">{actionData.discount_ceiling_pct ?? 20.0}%</span>
+                            </div>
+                          </div>
+
+                          <div className="bg-ink/90 p-2.5 rounded border border-panel-border/80 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-[10px]">
+                            <div>
+                              <span className="text-slate">Allowance: </span>
+                              <span className="text-paper font-bold">
+                                {actionData.weighted_cart_margin ?? 0}% - {actionData.margin_floor_pct ?? 10}% = {actionData.margin_allowance ?? 0}%
+                              </span>
+                            </div>
+                            <div>
+                              <span className="text-slate">Binding Rule: </span>
+                              <span className="text-signal-gold font-bold uppercase">{actionData.binding_constraint || entry.rule_triggered}</span>
+                            </div>
+                            <div>
+                              <span className="text-slate">Final Permitted: </span>
+                              <span className="text-emerald-400 font-bold">{actionData.applied_percent ?? 0}%</span>
+                            </div>
+                          </div>
+
+                          {actionData.original_subtotal !== undefined && (
+                            <div className="text-[10px] text-slate flex items-center justify-between pt-1 border-t border-panel-border/40">
+                              <span>Cart Subtotal Impact:</span>
+                              <span className="text-paper">
+                                ₹{actionData.original_subtotal?.toLocaleString('en-IN')} →{' '}
+                                <strong className="text-signal-gold">₹{actionData.new_subtotal?.toLocaleString('en-IN')}</strong>{' '}
+                                (-₹{actionData.discount_amount?.toLocaleString('en-IN')})
+                              </span>
+                            </div>
+                          )}
+                        </div>
+                      );
+                    })()}
                   </div>
                 )}
               </div>

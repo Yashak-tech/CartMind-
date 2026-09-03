@@ -263,6 +263,12 @@ class GatingEngine:
                     "proposed_percent": proposed_percent,
                     "applied_percent": 0.0,
                     "weighted_cart_margin": round(weighted_avg_margin_pct, 1),
+                    "margin_floor_pct": self.MARGIN_FLOOR_PCT,
+                    "discount_ceiling_pct": self.DISCOUNT_CEILING_PCT,
+                    "margin_allowance": round(weighted_avg_margin_pct - self.MARGIN_FLOOR_PCT, 1),
+                    "max_allowed_discount": 0.0,
+                    "binding_constraint": "margin_floor",
+                    "formula": "min(discount_ceiling_pct, weighted_margin - margin_floor_pct)",
                 }
             )
 
@@ -286,6 +292,12 @@ class GatingEngine:
                     "original_subtotal": round(subtotal, 2),
                     "new_subtotal": new_subtotal,
                     "weighted_cart_margin": round(weighted_avg_margin_pct, 1),
+                    "margin_floor_pct": self.MARGIN_FLOOR_PCT,
+                    "discount_ceiling_pct": self.DISCOUNT_CEILING_PCT,
+                    "margin_allowance": round(margin_allowance, 1),
+                    "max_allowed_discount": round(max_allowed_discount, 1),
+                    "binding_constraint": "within_limits",
+                    "formula": "min(discount_ceiling_pct, weighted_margin - margin_floor_pct)",
                 }
             )
 
@@ -325,6 +337,12 @@ class GatingEngine:
                 "original_subtotal": round(subtotal, 2),
                 "new_subtotal": new_subtotal,
                 "weighted_cart_margin": round(weighted_avg_margin_pct, 1),
+                "margin_floor_pct": self.MARGIN_FLOOR_PCT,
+                "discount_ceiling_pct": self.DISCOUNT_CEILING_PCT,
+                "margin_allowance": round(margin_allowance, 1),
+                "max_allowed_discount": applied_percent,
+                "binding_constraint": binding_rule,
+                "formula": "min(discount_ceiling_pct, weighted_margin - margin_floor_pct)",
             }
         )
 
