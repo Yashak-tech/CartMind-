@@ -1,0 +1,561 @@
+{
+  "num_sessions": 30,
+  "baseline_aov": 6924.8,
+  "agent_aov": 6964.49,
+  "aov_lift_abs": 39.69,
+  "aov_lift_pct": 0.57,
+  "total_baseline_revenue": 207744.0,
+  "total_agent_revenue": 208934.8,
+  "revenue_lift_abs": 1190.8,
+  "upsells_offered": 30,
+  "upsells_accepted": 20,
+  "upsell_acceptance_rate": 66.67,
+  "discounts_requested": 22,
+  "discounts_modified": 18,
+  "gate_intervention_rate": 81.82,
+  "margin_floor_protected_count": 18,
+  "baseline_sessions": [
+    {
+      "session_id": "sess_base_001",
+      "items_count": 1,
+      "subtotal": 12499.0,
+      "margin_pct": 45.0,
+      "upsell_accepted": false,
+      "discount_applied": 0.0,
+      "final_amount": 12499.0
+    },
+    {
+      "session_id": "sess_base_002",
+      "items_count": 1,
+      "subtotal": 1199.0,
+      "margin_pct": 60.0,
+      "upsell_accepted": false,
+      "discount_applied": 0.0,
+      "final_amount": 1199.0
+    },
+    {
+      "session_id": "sess_base_003",
+      "items_count": 3,
+      "subtotal": 19997.0,
+      "margin_pct": 45.63,
+      "upsell_accepted": false,
+      "discount_applied": 0.0,
+      "final_amount": 19997.0
+    },
+    {
+      "session_id": "sess_base_004",
+      "items_count": 2,
+      "subtotal": 3098.0,
+      "margin_pct": 56.94,
+      "upsell_accepted": false,
+      "discount_applied": 0.0,
+      "final_amount": 3098.0
+    },
+    {
+      "session_id": "sess_base_005",
+      "items_count": 2,
+      "subtotal": 4698.0,
+      "margin_pct": 45.0,
+      "upsell_accepted": false,
+      "discount_applied": 0.0,
+      "final_amount": 4698.0
+    },
+    {
+      "session_id": "sess_base_006",
+      "items_count": 3,
+      "subtotal": 8297.0,
+      "margin_pct": 55.12,
+      "upsell_accepted": false,
+      "discount_applied": 0.0,
+      "final_amount": 8297.0
+    },
+    {
+      "session_id": "sess_base_007",
+      "items_count": 1,
+      "subtotal": 4999.0,
+      "margin_pct": 50.0,
+      "upsell_accepted": false,
+      "discount_applied": 0.0,
+      "final_amount": 4999.0
+    },
+    {
+      "session_id": "sess_base_008",
+      "items_count": 2,
+      "subtotal": 15498.0,
+      "margin_pct": 45.0,
+      "upsell_accepted": false,
+      "discount_applied": 0.0,
+      "final_amount": 15498.0
+    },
+    {
+      "session_id": "sess_base_009",
+      "items_count": 1,
+      "subtotal": 5499.0,
+      "margin_pct": 48.0,
+      "upsell_accepted": false,
+      "discount_applied": 0.0,
+      "final_amount": 5499.0
+    },
+    {
+      "session_id": "sess_base_010",
+      "items_count": 2,
+      "subtotal": 6898.0,
+      "margin_pct": 51.38,
+      "upsell_accepted": false,
+      "discount_applied": 0.0,
+      "final_amount": 6898.0
+    },
+    {
+      "session_id": "sess_base_011",
+      "items_count": 1,
+      "subtotal": 1699.0,
+      "margin_pct": 45.0,
+      "upsell_accepted": false,
+      "discount_applied": 0.0,
+      "final_amount": 1699.0
+    },
+    {
+      "session_id": "sess_base_012",
+      "items_count": 3,
+      "subtotal": 4397.0,
+      "margin_pct": 55.91,
+      "upsell_accepted": false,
+      "discount_applied": 0.0,
+      "final_amount": 4397.0
+    },
+    {
+      "session_id": "sess_base_013",
+      "items_count": 1,
+      "subtotal": 2299.0,
+      "margin_pct": 52.0,
+      "upsell_accepted": false,
+      "discount_applied": 0.0,
+      "final_amount": 2299.0
+    },
+    {
+      "session_id": "sess_base_014",
+      "items_count": 2,
+      "subtotal": 7498.0,
+      "margin_pct": 43.07,
+      "upsell_accepted": false,
+      "discount_applied": 0.0,
+      "final_amount": 7498.0
+    },
+    {
+      "session_id": "sess_base_015",
+      "items_count": 2,
+      "subtotal": 2698.0,
+      "margin_pct": 62.78,
+      "upsell_accepted": false,
+      "discount_applied": 0.0,
+      "final_amount": 2698.0
+    },
+    {
+      "session_id": "sess_base_016",
+      "items_count": 2,
+      "subtotal": 14198.0,
+      "margin_pct": 45.0,
+      "upsell_accepted": false,
+      "discount_applied": 0.0,
+      "final_amount": 14198.0
+    },
+    {
+      "session_id": "sess_base_017",
+      "items_count": 2,
+      "subtotal": 4798.0,
+      "margin_pct": 45.75,
+      "upsell_accepted": false,
+      "discount_applied": 0.0,
+      "final_amount": 4798.0
+    },
+    {
+      "session_id": "sess_base_018",
+      "items_count": 3,
+      "subtotal": 10197.0,
+      "margin_pct": 43.63,
+      "upsell_accepted": false,
+      "discount_applied": 0.0,
+      "final_amount": 10197.0
+    },
+    {
+      "session_id": "sess_base_019",
+      "items_count": 2,
+      "subtotal": 4198.0,
+      "margin_pct": 53.36,
+      "upsell_accepted": false,
+      "discount_applied": 0.0,
+      "final_amount": 4198.0
+    },
+    {
+      "session_id": "sess_base_020",
+      "items_count": 2,
+      "subtotal": 8298.0,
+      "margin_pct": 48.67,
+      "upsell_accepted": false,
+      "discount_applied": 0.0,
+      "final_amount": 8298.0
+    },
+    {
+      "session_id": "sess_base_021",
+      "items_count": 1,
+      "subtotal": 2799.0,
+      "margin_pct": 50.0,
+      "upsell_accepted": false,
+      "discount_applied": 0.0,
+      "final_amount": 2799.0
+    },
+    {
+      "session_id": "sess_base_022",
+      "items_count": 3,
+      "subtotal": 8297.0,
+      "margin_pct": 50.55,
+      "upsell_accepted": false,
+      "discount_applied": 0.0,
+      "final_amount": 8297.0
+    },
+    {
+      "session_id": "sess_base_023",
+      "items_count": 2,
+      "subtotal": 7198.0,
+      "margin_pct": 47.29,
+      "upsell_accepted": false,
+      "discount_applied": 0.0,
+      "final_amount": 7198.0
+    },
+    {
+      "session_id": "sess_base_024",
+      "items_count": 2,
+      "subtotal": 4198.0,
+      "margin_pct": 49.28,
+      "upsell_accepted": false,
+      "discount_applied": 0.0,
+      "final_amount": 4198.0
+    },
+    {
+      "session_id": "sess_base_025",
+      "items_count": 3,
+      "subtotal": 16097.0,
+      "margin_pct": 46.18,
+      "upsell_accepted": false,
+      "discount_applied": 0.0,
+      "final_amount": 16097.0
+    },
+    {
+      "session_id": "sess_base_026",
+      "items_count": 1,
+      "subtotal": 1699.0,
+      "margin_pct": 45.0,
+      "upsell_accepted": false,
+      "discount_applied": 0.0,
+      "final_amount": 1699.0
+    },
+    {
+      "session_id": "sess_base_027",
+      "items_count": 2,
+      "subtotal": 4298.0,
+      "margin_pct": 55.23,
+      "upsell_accepted": false,
+      "discount_applied": 0.0,
+      "final_amount": 4298.0
+    },
+    {
+      "session_id": "sess_base_028",
+      "items_count": 1,
+      "subtotal": 2299.0,
+      "margin_pct": 52.0,
+      "upsell_accepted": false,
+      "discount_applied": 0.0,
+      "final_amount": 2299.0
+    },
+    {
+      "session_id": "sess_base_029",
+      "items_count": 2,
+      "subtotal": 15998.0,
+      "margin_pct": 43.47,
+      "upsell_accepted": false,
+      "discount_applied": 0.0,
+      "final_amount": 15998.0
+    },
+    {
+      "session_id": "sess_base_030",
+      "items_count": 1,
+      "subtotal": 1899.0,
+      "margin_pct": 55.0,
+      "upsell_accepted": false,
+      "discount_applied": 0.0,
+      "final_amount": 1899.0
+    }
+  ],
+  "agent_sessions": [
+    {
+      "session_id": "sess_agent_001",
+      "items_count": 2,
+      "subtotal": 14198.0,
+      "margin_pct": 45.0,
+      "upsell_accepted": true,
+      "discount_applied": 20.0,
+      "final_amount": 11358.4
+    },
+    {
+      "session_id": "sess_agent_002",
+      "items_count": 1,
+      "subtotal": 1199.0,
+      "margin_pct": 60.0,
+      "upsell_accepted": false,
+      "discount_applied": 20.0,
+      "final_amount": 959.2
+    },
+    {
+      "session_id": "sess_agent_003",
+      "items_count": 4,
+      "subtotal": 21696.0,
+      "margin_pct": 45.58,
+      "upsell_accepted": true,
+      "discount_applied": 20.0,
+      "final_amount": 17356.8
+    },
+    {
+      "session_id": "sess_agent_004",
+      "items_count": 2,
+      "subtotal": 3098.0,
+      "margin_pct": 56.94,
+      "upsell_accepted": false,
+      "discount_applied": 20.0,
+      "final_amount": 2478.4
+    },
+    {
+      "session_id": "sess_agent_005",
+      "items_count": 3,
+      "subtotal": 5897.0,
+      "margin_pct": 48.05,
+      "upsell_accepted": true,
+      "discount_applied": 0.0,
+      "final_amount": 5897.0
+    },
+    {
+      "session_id": "sess_agent_006",
+      "items_count": 4,
+      "subtotal": 9496.0,
+      "margin_pct": 55.74,
+      "upsell_accepted": true,
+      "discount_applied": 0.0,
+      "final_amount": 9496.0
+    },
+    {
+      "session_id": "sess_agent_007",
+      "items_count": 2,
+      "subtotal": 6898.0,
+      "margin_pct": 51.38,
+      "upsell_accepted": true,
+      "discount_applied": 20.0,
+      "final_amount": 5518.4
+    },
+    {
+      "session_id": "sess_agent_008",
+      "items_count": 3,
+      "subtotal": 16697.0,
+      "margin_pct": 46.08,
+      "upsell_accepted": true,
+      "discount_applied": 20.0,
+      "final_amount": 13357.6
+    },
+    {
+      "session_id": "sess_agent_009",
+      "items_count": 2,
+      "subtotal": 7798.0,
+      "margin_pct": 49.18,
+      "upsell_accepted": true,
+      "discount_applied": 20.0,
+      "final_amount": 6238.4
+    },
+    {
+      "session_id": "sess_agent_010",
+      "items_count": 3,
+      "subtotal": 9897.0,
+      "margin_pct": 49.44,
+      "upsell_accepted": true,
+      "discount_applied": 20.0,
+      "final_amount": 7917.6
+    },
+    {
+      "session_id": "sess_agent_011",
+      "items_count": 2,
+      "subtotal": 2898.0,
+      "margin_pct": 51.21,
+      "upsell_accepted": true,
+      "discount_applied": 20.0,
+      "final_amount": 2318.4
+    },
+    {
+      "session_id": "sess_agent_012",
+      "items_count": 4,
+      "subtotal": 5596.0,
+      "margin_pct": 56.79,
+      "upsell_accepted": true,
+      "discount_applied": 20.0,
+      "final_amount": 4476.8
+    },
+    {
+      "session_id": "sess_agent_013",
+      "items_count": 1,
+      "subtotal": 2299.0,
+      "margin_pct": 52.0,
+      "upsell_accepted": false,
+      "discount_applied": 20.0,
+      "final_amount": 1839.2
+    },
+    {
+      "session_id": "sess_agent_014",
+      "items_count": 3,
+      "subtotal": 8697.0,
+      "margin_pct": 45.4,
+      "upsell_accepted": true,
+      "discount_applied": 0.0,
+      "final_amount": 8697.0
+    },
+    {
+      "session_id": "sess_agent_015",
+      "items_count": 2,
+      "subtotal": 2698.0,
+      "margin_pct": 62.78,
+      "upsell_accepted": false,
+      "discount_applied": 0.0,
+      "final_amount": 2698.0
+    },
+    {
+      "session_id": "sess_agent_016",
+      "items_count": 2,
+      "subtotal": 14198.0,
+      "margin_pct": 45.0,
+      "upsell_accepted": false,
+      "discount_applied": 20.0,
+      "final_amount": 11358.4
+    },
+    {
+      "session_id": "sess_agent_017",
+      "items_count": 2,
+      "subtotal": 4798.0,
+      "margin_pct": 45.75,
+      "upsell_accepted": false,
+      "discount_applied": 20.0,
+      "final_amount": 3838.4
+    },
+    {
+      "session_id": "sess_agent_018",
+      "items_count": 4,
+      "subtotal": 11396.0,
+      "margin_pct": 45.35,
+      "upsell_accepted": true,
+      "discount_applied": 20.0,
+      "final_amount": 9116.8
+    },
+    {
+      "session_id": "sess_agent_019",
+      "items_count": 3,
+      "subtotal": 7197.0,
+      "margin_pct": 49.87,
+      "upsell_accepted": true,
+      "discount_applied": 20.0,
+      "final_amount": 5757.6
+    },
+    {
+      "session_id": "sess_agent_020",
+      "items_count": 3,
+      "subtotal": 9297.0,
+      "margin_pct": 48.82,
+      "upsell_accepted": true,
+      "discount_applied": 0.0,
+      "final_amount": 9297.0
+    },
+    {
+      "session_id": "sess_agent_021",
+      "items_count": 2,
+      "subtotal": 3798.0,
+      "margin_pct": 50.0,
+      "upsell_accepted": true,
+      "discount_applied": 0.0,
+      "final_amount": 3798.0
+    },
+    {
+      "session_id": "sess_agent_022",
+      "items_count": 4,
+      "subtotal": 13796.0,
+      "margin_pct": 49.54,
+      "upsell_accepted": true,
+      "discount_applied": 0.0,
+      "final_amount": 13796.0
+    },
+    {
+      "session_id": "sess_agent_023",
+      "items_count": 2,
+      "subtotal": 7198.0,
+      "margin_pct": 47.29,
+      "upsell_accepted": false,
+      "discount_applied": 20.0,
+      "final_amount": 5758.4
+    },
+    {
+      "session_id": "sess_agent_024",
+      "items_count": 3,
+      "subtotal": 5397.0,
+      "margin_pct": 51.66,
+      "upsell_accepted": true,
+      "discount_applied": 20.0,
+      "final_amount": 4317.6
+    },
+    {
+      "session_id": "sess_agent_025",
+      "items_count": 4,
+      "subtotal": 17796.0,
+      "margin_pct": 46.07,
+      "upsell_accepted": true,
+      "discount_applied": 20.0,
+      "final_amount": 14236.8
+    },
+    {
+      "session_id": "sess_agent_026",
+      "items_count": 1,
+      "subtotal": 1699.0,
+      "margin_pct": 45.0,
+      "upsell_accepted": false,
+      "discount_applied": 0.0,
+      "final_amount": 1699.0
+    },
+    {
+      "session_id": "sess_agent_027",
+      "items_count": 2,
+      "subtotal": 4298.0,
+      "margin_pct": 55.23,
+      "upsell_accepted": false,
+      "discount_applied": 20.0,
+      "final_amount": 3438.4
+    },
+    {
+      "session_id": "sess_agent_028",
+      "items_count": 2,
+      "subtotal": 7798.0,
+      "margin_pct": 49.18,
+      "upsell_accepted": true,
+      "discount_applied": 20.0,
+      "final_amount": 6238.4
+    },
+    {
+      "session_id": "sess_agent_029",
+      "items_count": 3,
+      "subtotal": 17697.0,
+      "margin_pct": 43.62,
+      "upsell_accepted": true,
+      "discount_applied": 20.0,
+      "final_amount": 14157.6
+    },
+    {
+      "session_id": "sess_agent_030",
+      "items_count": 1,
+      "subtotal": 1899.0,
+      "margin_pct": 55.0,
+      "upsell_accepted": false,
+      "discount_applied": 20.0,
+      "final_amount": 1519.2
+    }
+  ]
+}
