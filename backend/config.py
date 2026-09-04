@@ -20,6 +20,43 @@ class Settings(BaseSettings):
     ENVIRONMENT: str = "development"
     PORT: int = 8000
     BASE_URL: str = "http://localhost:8000"
+    BACKEND_URL: Optional[str] = None
+    RENDER_EXTERNAL_URL: Optional[str] = None
+
+    # CORS & Production Frontend Origin
+    FRONTEND_URL: Optional[str] = None
+    ALLOWED_ORIGINS: str = "http://localhost:5173,http://127.0.0.1:5173"
+
+    def model_post_init(self, __context) -> None:
+        """Dynamically resolve BASE_URL if BACKEND_URL or RENDER_EXTERNAL_URL is supplied."""
+        effective = self.BACKEND_URL or self.RENDER_EXTERNAL_URL
+        if effective:
+            self.BASE_URL = effective.rstrip("/")
+
+    @property
+    def cors_origins(self) -> list[str]:
+        """
+        Returns the explicit list of allowed origins.
+        Does NOT use wildcard '*'. Includes FRONTEND_URL and configured ALLOWED_ORIGINS.
+        """
+        origins: list[str] = []
+        if self.ALLOWED_ORIGINS:
+            for item in self.ALLOWED_ORIGINS.split(","):
+                cleaned = item.strip().rstrip("/")
+                if cleaned and cleaned != "*" and cleaned not in origins:
+                    origins.append(cleaned)
+
+        if self.FRONTEND_URL:
+            cleaned_front = self.FRONTEND_URL.strip().rstrip("/")
+            if cleaned_front and cleaned_front != "*" and cleaned_front not in origins:
+                origins.append(cleaned_front)
+
+        # Ensure standard local development ports are reachable in dev
+        for dev_host in ["http://localhost:5173", "http://127.0.0.1:5173"]:
+            if dev_host not in origins:
+                origins.append(dev_host)
+
+        return origins
 
     # Razorpay Test Credentials (TEST MODE ONLY)
     RAZORPAY_KEY_ID: Optional[str] = None

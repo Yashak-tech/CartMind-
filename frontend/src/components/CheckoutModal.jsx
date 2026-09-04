@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useCart } from '../context/CartContext';
+import * as api from '../api';
 import { X, CheckCircle, ShieldCheck, ArrowRight, Loader2, ExternalLink } from 'lucide-react';
 
 export default function CheckoutModal() {
@@ -13,13 +14,12 @@ export default function CheckoutModal() {
   const handleSimulatePayment = async () => {
     setIsProcessing(true);
     try {
-      // 1. Call simulation endpoint directly on backend
-      const simRes = await fetch('http://127.0.0.1:8000/api/test-payment/simulate', { method: 'POST' });
-      const simData = await simRes.json();
+      // 1. Call simulation endpoint on backend via api client
+      const simData = await api.simulateTestPayment();
 
       // 2. Trigger callback to complete cryptographic verification
       if (simData.callback_url) {
-        await fetch(`http://127.0.0.1:8000${simData.callback_url}`);
+        await api.callPaymentCallback(simData.callback_url);
       }
 
       setPaymentSuccess(true);

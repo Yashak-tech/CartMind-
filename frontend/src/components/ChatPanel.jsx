@@ -1,9 +1,10 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useCart } from '../context/CartContext';
+import * as api from '../api';
 import { Send, Sparkles, Plus, Check, Loader2, Bot, ArrowRight, ShieldCheck } from 'lucide-react';
 
 export default function ChatPanel() {
-  const { chatMessages, sendMessage, isThinking, addToCart } = useCart();
+  const { chatMessages, sendMessage, isThinking, addToCart, sessionId, initSession, refreshAudit, setChatMessages, setIsThinking } = useCart();
   const [inputText, setInputText] = useState('');
   const [addingId, setAddingId] = useState(null);
   const messagesEndRef = useRef(null);
@@ -36,7 +37,7 @@ export default function ChatPanel() {
     setIsThinking(true);
     try {
       // 1. Deplete SKU 15 stock in background (simulating another buyer claiming it)
-      await fetch('http://127.0.0.1:8000/products/15/deplete-stock', { method: 'POST' });
+      await api.depleteStock(15);
 
       // 2. Add user chat prompt asking for the low-stock item
       const userMsg = {
@@ -49,13 +50,11 @@ export default function ChatPanel() {
 
       // 3. Attempt to add the depleted item -> caught by execution-time gate!
       const sid = sessionId || (await initSession());
-      const addRes = await fetch(`http://127.0.0.1:8000/session/${sid}/cart/items`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ product_id: 15, qty: 1 }),
-      });
-
-      if (!addRes.ok) {
+      try {
+        await api.addToCart(sid, 15, 1);
+        setIsThinking(false);
+      } catch (err) {
+        // Expected gate block!
         await refreshAudit(sid);
         setTimeout(() => {
           const recoveryMsg = {
@@ -67,8 +66,6 @@ export default function ChatPanel() {
           setChatMessages((prev) => [...prev, recoveryMsg]);
           setIsThinking(false);
         }, 600);
-      } else {
-        setIsThinking(false);
       }
     } catch (err) {
       console.error('Failure injection demo error:', err);

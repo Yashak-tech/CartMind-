@@ -42,11 +42,8 @@ export default function AuditView() {
   // Load precomputed A/B metrics summary
   const loadAbMetrics = async () => {
     try {
-      const res = await fetch('http://127.0.0.1:8000/api/metrics/summary');
-      if (res.ok) {
-        const data = await res.json();
-        setAbMetrics(data);
-      }
+      const data = await api.getMetricsSummary();
+      setAbMetrics(data);
     } catch (err) {
       console.error('Failed to load A/B metrics:', err);
     }

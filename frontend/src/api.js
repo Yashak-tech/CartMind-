@@ -5,7 +5,7 @@
  * Automatically attaches signed JWT access gate token.
  */
 
-const API_BASE = 'http://127.0.0.1:8000';
+export const API_BASE = (import.meta.env.VITE_API_BASE_URL || 'http://127.0.0.1:8000').replace(/\/+$/, '');
 const TOKEN_KEY = 'cartmind_access_token';
 const EMAIL_KEY = 'cartmind_access_email';
 
@@ -147,4 +147,36 @@ export async function listAuditSessions() {
     headers: getHeaders(),
   });
   return handleResponse(res, 'Failed to list audit sessions');
+}
+
+export async function getMetricsSummary() {
+  const res = await fetch(`${API_BASE}/api/metrics/summary`, {
+    headers: getHeaders(),
+  });
+  return handleResponse(res, 'Failed to fetch metrics summary');
+}
+
+export async function depleteStock(productId = 15) {
+  const res = await fetch(`${API_BASE}/products/${productId}/deplete-stock`, {
+    method: 'POST',
+    headers: getHeaders(),
+  });
+  return handleResponse(res, `Failed to deplete stock for product ${productId}`);
+}
+
+export async function simulateTestPayment() {
+  const res = await fetch(`${API_BASE}/api/test-payment/simulate`, {
+    method: 'POST',
+    headers: getHeaders(),
+  });
+  return handleResponse(res, 'Failed to simulate test payment');
+}
+
+export async function callPaymentCallback(callbackUrl) {
+  const fullUrl = callbackUrl.startsWith('http') ? callbackUrl : `${API_BASE}${callbackUrl}`;
+  const res = await fetch(fullUrl, {
+    method: 'GET',
+    headers: getHeaders(),
+  });
+  return handleResponse(res, 'Failed to trigger payment callback');
 }

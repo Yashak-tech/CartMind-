@@ -5,6 +5,12 @@
 
 ---
 
+## 🔗 Live Demo
+**Try it now:** [FRONTEND_URL](FRONTEND_URL)  
+Built for Razorpay AI Buildathon 2026, Track 01. Test-mode only — no real payments are processed.
+
+---
+
 ## Executive Summary
 
 **CartMind** is an autonomous AI upsell and cross-sell agent with conversational checkout built for online merchants. It monitors the shopper's cart in real time, recommends contextual complementary gear, negotiates bounded discounts, and completes checkout conversationally.
@@ -123,6 +129,8 @@ Simulation of 30 distinct shopping sessions comparing **Control (Baseline, No Ag
 - Node.js 18+
 - Groq API Key (Optional — deterministic fallback operates offline)
 - Razorpay Test Keys (Optional — instant cryptographic simulation operates offline)
+
+> **Note:** Local setup below is only needed for development — the live demo above requires no setup.
 
 ### 1. Backend Setup
 ```powershell
