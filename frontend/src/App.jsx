@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { CartProvider } from './context/CartContext';
 import Header from './components/Header';
 import Storefront from './components/Storefront';
@@ -6,41 +6,17 @@ import AgentRail from './components/AgentRail';
 import CartDrawer from './components/CartDrawer';
 import CheckoutModal from './components/CheckoutModal';
 import AuditView from './pages/AuditView';
-import AccessGate from './components/AccessGate';
-import * as api from './api';
 import { Bot, ShoppingBag } from 'lucide-react';
 
 export default function App() {
-  const [authToken, setAuthToken] = useState(() => api.getAuthToken());
   const [currentView, setCurrentView] = useState('shop'); // 'shop' | 'audit'
   const [mobileTab, setMobileTab] = useState('store'); // 'store' | 'agent' for mobile
-
-  useEffect(() => {
-    const handleUnauthorized = () => {
-      setAuthToken(null);
-    };
-    window.addEventListener('cartmind:unauthorized', handleUnauthorized);
-    return () => window.removeEventListener('cartmind:unauthorized', handleUnauthorized);
-  }, []);
-
-  const handleAuthenticated = (token) => {
-    setAuthToken(token);
-  };
-
-  const handleSignOut = () => {
-    api.clearAuthSession();
-    setAuthToken(null);
-  };
-
-  if (!authToken) {
-    return <AccessGate onAuthenticated={handleAuthenticated} />;
-  }
 
   return (
     <CartProvider>
       <div className="h-screen w-screen flex flex-col bg-ink text-paper overflow-hidden">
         {/* Persistent Top Navigation */}
-        <Header currentView={currentView} setCurrentView={setCurrentView} onSignOut={handleSignOut} />
+        <Header currentView={currentView} setCurrentView={setCurrentView} />
 
         {/* Mobile View Toggle Bar */}
         {currentView === 'shop' && (

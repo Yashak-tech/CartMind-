@@ -5,9 +5,16 @@
 
 ---
 
-## 🔗 Live Demo
-**Try it now:** [FRONTEND_URL](FRONTEND_URL)  
-Built for Razorpay AI Buildathon 2026, Track 01. Test-mode only — no real payments are processed.
+## 📑 Table of Contents
+1. [Executive Summary](#executive-summary)
+2. [📸 Product Walkthrough & Screenshots](#-product-walkthrough)
+3. [System Architecture](#system-architecture)
+4. [The 5 Deterministic Gating Rules](#the-5-deterministic-gating-rules)
+5. [Failure Injection Demo: Stock Race Condition](#failure-injection-demo-stock-race-condition-trdmd-9-option-a)
+6. [Measured Economic Impact: Synthetic A/B Testing](#measured-economic-impact-synthetic-ab-testing-report-trdmd-10)
+7. [Quickstart & Local Setup](#quickstart--local-setup)
+8. [Verbatim 3-Minute Video Pitch Script (For Judges)](#verbatim-3-minute-video-pitch-script-for-judges)
+9. [License & Compliance](#license--compliance)
 
 ---
 
@@ -20,6 +27,18 @@ Most AI shopping bots fail because they have un-bounded write access to database
 1. **The LLM Reasoning Layer** (Groq `llama-3.3-70b-versatile`) **only proposes** structured actions (`recommend_product`, `apply_discount`, `initiate_checkout`). It has **zero database write access** and can never touch Razorpay directly.
 2. **The Deterministic Gating Engine** (Pure Python, zero LLM calls) validates every proposed action against 5 hard merchant policies before anything executes.
 3. **The Decision Ledger & Audit Trail** records every proposal and gate decision 1:1 with human-readable justifications and HMAC-SHA256 signature verification.
+
+---
+
+## 📸 Product Walkthrough
+
+| Screenshot | Feature & Explanation |
+|---|---|
+| ![Storefront & Catalog](docs/screenshots/01-storefront-catalog.png) | **1. Curated Storefront & Split-Screen UI**<br>Interactive catalog with 15 seeded SKUs across Audio, Productivity, and Everyday Carry. Real-time cart synchronization and luxury dark mode design system. |
+| ![Contextual Recommendation](docs/screenshots/02-contextual-recommendation.png) | **2. AI Copilot Recommendations**<br>Groq LLM (`llama-3.3-70b-versatile`) proposes contextual gear based on the shopper's cart items using structured tool calls. |
+| ![Decision Ledger Modified](docs/screenshots/03-decision-ledger-modified-discount.png) | **3. Live Decision Ledger & Margin Math**<br>When an over-limit discount (e.g. 35% or 90% jailbreak) is requested, the Gating Engine intercepts and modifies the discount to cap at the 10% hard margin floor with full financial math transparency. |
+| ![Decision Audit View](docs/screenshots/04-audit-panel-trail.png) | **4. Full Decision Audit Trail & Exports**<br>Dedicated audit console recording 1:1 gate decisions, HMAC-SHA256 signatures, chronological timeline, and one-click CSV / JSON export. |
+| ![Stock Failure Recovery](docs/screenshots/05-stock-failure-recovery.png) | **5. Failure Injection: Stock Race Condition**<br>Simulates execution-time inventory depletion. The server gate blocks the transaction, writes `stock_validation_failed` to audit log, and the agent offers available in-stock alternatives without crashing. |
 
 ---
 
@@ -130,8 +149,6 @@ Simulation of 30 distinct shopping sessions comparing **Control (Baseline, No Ag
 - Groq API Key (Optional — deterministic fallback operates offline)
 - Razorpay Test Keys (Optional — instant cryptographic simulation operates offline)
 
-> **Note:** Local setup below is only needed for development — the live demo above requires no setup.
-
 ### 1. Backend Setup
 ```powershell
 # Navigate to project root
@@ -140,7 +157,7 @@ cd c:\CartMind
 # Activate virtual environment
 .\backend\.venv\Scripts\Activate.ps1
 
-# Run tests (All 23 unit & integration tests)
+# Run tests (All 26 unit & integration tests)
 pytest backend/tests/ -v
 
 # Start FastAPI backend

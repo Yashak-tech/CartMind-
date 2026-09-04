@@ -14,14 +14,9 @@ from backend.models import CartSession, CartItem, Product, GateDecision
 from backend.gate.engine import GatingEngine
 
 
-from backend.routes.auth import create_access_token
-
-
 @pytest.fixture
 def client():
-    c = TestClient(app)
-    c.headers.update({"Authorization": f"Bearer {create_access_token('test_prompt@cartmind.ai')}"})
-    return c
+    return TestClient(app)
 
 
 def test_adversarial_prompt_injection_discount_capped(client):
