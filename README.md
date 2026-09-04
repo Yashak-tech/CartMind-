@@ -114,7 +114,6 @@ pytest backend/tests/ -v
 # Start FastAPI backend
 uvicorn backend.main:app --host 127.0.0.1 --port 8000
 ```
-Backend runs at: [http://127.0.0.1:8000](http://127.0.0.1:8000) (Interactive Swagger Docs: `/docs`).
 
 ### 2. Frontend Setup
 ```powershell
@@ -126,7 +125,6 @@ npm install
 # Start Vite dev server
 npm run dev -- --host 127.0.0.1 --port 5173
 ```
-Frontend runs at: [http://127.0.0.1:5173](http://127.0.0.1:5173).
 
 ### 3. Run Synthetic A/B Benchmark
 ```powershell
