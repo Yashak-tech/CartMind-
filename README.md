@@ -46,58 +46,7 @@ CartMind is architected with a responsive split-screen workspace built in React,
 
 ## System Architecture
 
-```mermaid
-flowchart TD
-    subgraph Frontend ["Client Workspace (React + Vite + Tailwind)"]
-        UI[Storefront ~60%]
-        Chat[AI Copilot Rail ~40%]
-        Ledger[Live Monospace Decision Ledger]
-    end
-
-    subgraph Backend ["FastAPI Application (Port 8000)"]
-        ChatRoute["POST /session/{id}/message"]
-        CartRoute["POST /session/{id}/cart/items"]
-        CheckoutRoute["POST /session/{id}/checkout"]
-        
-        subgraph ReasoningLayer ["Layer 1: Reasoning Layer (LLM)"]
-            Reasoner["Groq API (llama-3.3-70b-versatile)"]
-            Tools["Tool Calls: recommend_product | apply_discount | initiate_checkout"]
-        end
-
-        subgraph GatingLayer ["Layer 2: Deterministic Gating Engine (Pure Python)"]
-            Gate["GatingEngine (Zero LLM Calls)"]
-            R1["Rule 1: Stock Check (> 0)"]
-            R2["Rule 2: Turn Cap (Max 1)"]
-            R3["Rule 3: 10% Margin Floor"]
-            R4["Rule 4: 20% Discount Ceiling"]
-            R5["Rule 5: Checkout Confirmation"]
-        end
-
-        subgraph ExecutionLayer ["Layer 3: Action Executor & Persistence"]
-            Executor["Action Executor (Sole DB Writer)"]
-            DB[(SQLite via SQLModel)]
-            Audit[(Immutable Audit Log & Gate Decisions)]
-        end
-
-        subgraph Payments ["Razorpay Integration (Test Mode)"]
-            RZP["Razorpay Python SDK (Test Mode)"]
-            Link["Payment Links with Explicit Callbacks"]
-            Verifier["HMAC-SHA256 Dual Signature Verifier"]
-            Webhook["Authoritative Webhook Listener"]
-        end
-    end
-
-    Chat -->|1. Customer Message| ChatRoute
-    ChatRoute -->|2. Context & History| Reasoner
-    Reasoner -->|3. Proposes Tool Call| Tools
-    Tools -->|4. Intercepts Proposal| Gate
-    Gate -->|5. Evaluates Policies| R1 & R2 & R3 & R4 & R5
-    Gate -->|6. Approved / Modified / Blocked| Executor
-    Executor -->|7. Persists State & Decisions| DB & Audit
-    Executor -->|8. Creates Payment Link| RZP
-    RZP -->|9. Returns Payment Link & Order| Verifier
-    Audit -->|10. Real-time Feed| Ledger
-```
+![CartMind System Architecture](docs/system-architecture.jpg)
 
 ---
 
