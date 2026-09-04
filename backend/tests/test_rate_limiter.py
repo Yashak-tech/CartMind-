@@ -10,9 +10,14 @@ from backend.rate_limiter import InMemoryRateLimiter, chat_rate_limiter
 from backend.main import app
 
 
+from backend.routes.auth import create_access_token
+
+
 @pytest.fixture
 def client():
-    return TestClient(app)
+    c = TestClient(app)
+    c.headers.update({"Authorization": f"Bearer {create_access_token('test_limiter@cartmind.ai')}"})
+    return c
 
 
 def test_in_memory_rate_limiter_blocks_after_threshold():

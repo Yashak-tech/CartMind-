@@ -28,6 +28,16 @@ class Settings(BaseSettings):
     # Groq API Key (Phase 3)
     GROQ_API_KEY: Optional[str] = None
 
+    # Access Gate Authentication (Email OTP & JWT)
+    JWT_SECRET: str = "cartmind_super_secret_jwt_access_key_2026"
+    JWT_ALGORITHM: str = "HS256"
+    JWT_EXPIRY_HOURS: int = 24
+    OTP_EXPIRY_MINUTES: int = 10
+
+    # Resend Transactional Email API (Optional - Console Fallback in Dev)
+    RESEND_API_KEY: Optional[str] = None
+    RESEND_FROM_EMAIL: str = "CartMind Access <onboarding@resend.dev>"
+
     @property
     def has_razorpay_credentials(self) -> bool:
         """Returns True if Razorpay key id and secret are provided."""

@@ -28,6 +28,8 @@ from backend.routes.cart import router as cart_router
 from backend.routes.chat import router as chat_router
 from backend.routes.audit import router as audit_router
 from backend.routes.webhooks import router as webhooks_router
+from backend.routes.auth import router as auth_router
+from backend.auth_middleware import AccessGateMiddleware
 
 
 @asynccontextmanager
@@ -54,7 +56,11 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# Mount Access Gate JWT Authentication Middleware
+app.add_middleware(AccessGateMiddleware)
+
 # Include Core API Routers (TRD.md §5)
+app.include_router(auth_router)
 app.include_router(products_router)
 app.include_router(cart_router)
 app.include_router(chat_router)

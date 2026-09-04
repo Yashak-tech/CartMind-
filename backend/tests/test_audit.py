@@ -13,6 +13,7 @@ from fastapi.testclient import TestClient
 from sqlmodel import Session, select
 
 from backend.main import app
+from backend.routes.auth import create_access_token
 from backend.config import settings
 from backend.database import engine, init_db, seed_catalog
 from backend.models import Order, AuditLog, CartSession, CartItem
@@ -28,7 +29,10 @@ def setup_database():
 @pytest.fixture
 def client():
     """FastAPI TestClient with lifespan events enabled."""
-    with TestClient(app) as test_client:
+    c = TestClient(app)
+    token = create_access_token("test_audit@cartmind.ai")
+    c.headers.update({"Authorization": f"Bearer {token}"})
+    with c as test_client:
         yield test_client
 
 
