@@ -4,13 +4,15 @@ Uses SQLite via SQLModel per AGENTS.md and TRD.md §3.
 """
 
 import os
+from pathlib import Path
 from typing import Generator
 from sqlmodel import SQLModel, Session, create_engine, select
 
 from backend.models import Product
 
-# Default database path: backend/cartmind.db
-DB_FILE = os.environ.get("DATABASE_URL", "sqlite:///backend/cartmind.db")
+# Default database path: backend/cartmind.db (resolved relative to this file)
+_db_dir = Path(__file__).resolve().parent
+DB_FILE = os.environ.get("DATABASE_URL", f"sqlite:///{_db_dir / 'cartmind.db'}")
 
 # For SQLite, check_same_thread=False allows FastAPI multi-threading
 connect_args = {"check_same_thread": False} if DB_FILE.startswith("sqlite") else {}

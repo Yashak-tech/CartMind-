@@ -22,16 +22,24 @@ class Settings(BaseSettings):
     BASE_URL: str = "http://localhost:8000"
     BACKEND_URL: Optional[str] = None
     RENDER_EXTERNAL_URL: Optional[str] = None
+    SPACE_HOST: Optional[str] = None  # Automatically injected by Hugging Face Spaces
 
     # CORS & Production Frontend Origin
     FRONTEND_URL: Optional[str] = None
     ALLOWED_ORIGINS: str = "http://localhost:5173,http://127.0.0.1:5173"
 
     def model_post_init(self, __context) -> None:
-        """Dynamically resolve BASE_URL if BACKEND_URL or RENDER_EXTERNAL_URL is supplied."""
-        effective = self.BACKEND_URL or self.RENDER_EXTERNAL_URL
-        if effective:
-            self.BASE_URL = effective.rstrip("/")
+        """Dynamically resolve BASE_URL from BACKEND_URL, SPACE_HOST (Hugging Face), or RENDER_EXTERNAL_URL."""
+        if self.BACKEND_URL:
+            self.BASE_URL = self.BACKEND_URL.rstrip("/")
+        elif self.SPACE_HOST:
+            # Hugging Face Spaces provides SPACE_HOST (e.g. username-spacename.hf.space)
+            host = self.SPACE_HOST.strip().rstrip("/")
+            if not host.startswith("http"):
+                host = f"https://{host}"
+            self.BASE_URL = host
+        elif self.RENDER_EXTERNAL_URL:
+            self.BASE_URL = self.RENDER_EXTERNAL_URL.rstrip("/")
 
     @property
     def cors_origins(self) -> list[str]:

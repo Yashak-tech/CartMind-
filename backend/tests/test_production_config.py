@@ -63,3 +63,12 @@ def test_cors_headers_with_allowed_origin():
     )
     assert response.status_code == 200
     assert response.headers.get("access-control-allow-origin") == "http://localhost:5173"
+
+
+def test_hugging_face_space_host_resolution():
+    """Verify that Hugging Face Spaces SPACE_HOST automatically configures BASE_URL with https."""
+    hf_settings = Settings(
+        SPACE_HOST="yashak-cartmind-backend.hf.space"
+    )
+    assert hf_settings.BASE_URL == "https://yashak-cartmind-backend.hf.space"
+
