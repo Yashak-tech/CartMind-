@@ -19,9 +19,14 @@ from backend.models import Product, CartSession, CartItem, AuditLog
 from backend.gate.engine import GatingEngine
 
 
+from backend.routes.auth import create_access_token
+
+
 @pytest.fixture
 def client():
-    return TestClient(app)
+    c = TestClient(app)
+    c.headers.update({"Authorization": f"Bearer {create_access_token('test_failure@cartmind.ai')}"})
+    return c
 
 
 def test_proposal_time_stock_check_passes():

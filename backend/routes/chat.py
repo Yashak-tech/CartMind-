@@ -15,6 +15,7 @@ from backend.routes.cart import _calculate_cart_response
 from backend.agent.reasoner import reasoner
 from backend.gate.engine import gating_engine
 from backend.gate.executor import action_executor
+from backend.rate_limiter import chat_rate_limiter
 
 router = APIRouter(prefix="/session", tags=["Chat & Agent"])
 
@@ -43,6 +44,8 @@ def send_message(
     4. Action Executor persists proposals, decisions, and audit records.
     5. Returns agent reply, enriched decisions list, and updated cart state.
     """
+    # Enforce lightweight sliding-window rate limit (TRD.md §11)
+    chat_rate_limiter.check(session_id)
     cart_session = db.get(CartSession, session_id)
     if not cart_session:
         raise HTTPException(

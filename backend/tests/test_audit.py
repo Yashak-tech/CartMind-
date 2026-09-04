@@ -25,10 +25,16 @@ def setup_database():
     seed_catalog()
 
 
+from backend.routes.auth import create_access_token
+
+
 @pytest.fixture
 def client():
     """FastAPI TestClient with lifespan events enabled."""
-    with TestClient(app) as test_client:
+    c = TestClient(app)
+    token = create_access_token("test_audit@cartmind.ai")
+    c.headers.update({"Authorization": f"Bearer {token}"})
+    with c as test_client:
         yield test_client
 
 

@@ -1,8 +1,8 @@
 import React from 'react';
 import { useCart } from '../context/CartContext';
-import { ShoppingBag, RefreshCw, Shield, ArrowLeft, Flame, Sparkles } from 'lucide-react';
+import { ShoppingBag, RefreshCw, Shield, ArrowLeft, Flame, Sparkles, Lock } from 'lucide-react';
 
-export default function Header({ currentView, setCurrentView }) {
+export default function Header({ currentView, setCurrentView, onSignOut }) {
   const { cart, setIsCartOpen, sessionId, resetSession } = useCart();
 
   return (
@@ -90,7 +90,17 @@ export default function Header({ currentView, setCurrentView }) {
             <RefreshCw className="w-4 h-4" />
           </button>
 
-
+          {/* Authenticated Workspace Lock / Sign Out */}
+          {onSignOut && (
+            <button
+              onClick={onSignOut}
+              title="Lock workspace / Sign out"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-ink border border-panel-border text-slate hover:text-alert-coral hover:border-alert-coral/40 text-xs font-mono transition-colors"
+            >
+              <Lock className="w-3.5 h-3.5" />
+              <span className="hidden sm:inline">Lock</span>
+            </button>
+          )}
 
           {/* Cart Trigger */}
           <button
