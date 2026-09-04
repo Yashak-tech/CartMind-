@@ -7,14 +7,13 @@
 
 ## 📑 Table of Contents
 1. [Executive Summary](#executive-summary)
-2. [📸 Product Walkthrough & Screenshots](#-product-walkthrough)
+2. [Core Capabilities & Interactive Tour](#core-capabilities--interactive-tour)
 3. [System Architecture](#system-architecture)
 4. [The 5 Deterministic Gating Rules](#the-5-deterministic-gating-rules)
 5. [Failure Injection Demo: Stock Race Condition](#failure-injection-demo-stock-race-condition-trdmd-9-option-a)
 6. [Measured Economic Impact: Synthetic A/B Testing](#measured-economic-impact-synthetic-ab-testing-report-trdmd-10)
 7. [Quickstart & Local Setup](#quickstart--local-setup)
-8. [Verbatim 3-Minute Video Pitch Script (For Judges)](#verbatim-3-minute-video-pitch-script-for-judges)
-9. [License & Compliance](#license--compliance)
+8. [License & Compliance](#license--compliance)
 
 ---
 
@@ -30,15 +29,18 @@ Most AI shopping bots fail because they have un-bounded write access to database
 
 ---
 
-## 📸 Product Walkthrough
+## ⚡ Core Capabilities & Interactive Tour
 
-| Screenshot | Feature & Explanation |
-|---|---|
-| ![Storefront & Catalog](docs/screenshots/01-storefront-catalog.png) | **1. Curated Storefront & Split-Screen UI**<br>Interactive catalog with 15 seeded SKUs across Audio, Productivity, and Everyday Carry. Real-time cart synchronization and luxury dark mode design system. |
-| ![Contextual Recommendation](docs/screenshots/02-contextual-recommendation.png) | **2. AI Copilot Recommendations**<br>Groq LLM (`llama-3.3-70b-versatile`) proposes contextual gear based on the shopper's cart items using structured tool calls. |
-| ![Decision Ledger Modified](docs/screenshots/03-decision-ledger-modified-discount.png) | **3. Live Decision Ledger & Margin Math**<br>When an over-limit discount (e.g. 35% or 90% jailbreak) is requested, the Gating Engine intercepts and modifies the discount to cap at the 10% hard margin floor with full financial math transparency. |
-| ![Decision Audit View](docs/screenshots/04-audit-panel-trail.png) | **4. Full Decision Audit Trail & Exports**<br>Dedicated audit console recording 1:1 gate decisions, HMAC-SHA256 signatures, chronological timeline, and one-click CSV / JSON export. |
-| ![Stock Failure Recovery](docs/screenshots/05-stock-failure-recovery.png) | **5. Failure Injection: Stock Race Condition**<br>Simulates execution-time inventory depletion. The server gate blocks the transaction, writes `stock_validation_failed` to audit log, and the agent offers available in-stock alternatives without crashing. |
+CartMind is architected with a responsive split-screen workspace built in React, Vite, and Tailwind CSS:
+
+| Module / Flow | Capability & Behavior | Under-the-Hood Mechanics |
+|---|---|---|
+| **1. Curated Storefront & Split-Screen UI** | 60% browsing canvas featuring 15 seeded SKUs across Audio, Productivity, and Everyday Carry. Live category filters, inventory status badges, real-time cart synchronization, and luxury dark mode design. | Client-side reactive state synchronized via REST with backend `/session/{id}/cart/items`. |
+| **2. Contextual AI Copilot** | 40% conversational rail powered by Groq's `llama-3.3-70b-versatile`. Automatically analyzes cart items to propose complementary accessories with zero manual prompt gymnastics. | Structured LLM function calling emits `recommend_product` tool calls; zero direct database writes. |
+| **3. Live Decision Ledger** | Monospace ticker at the base of the viewport displaying real-time policy verdicts: `[APPROVED]`, `[MODIFIED]`, or `[BLOCKED]` with millisecond timestamps and policy rule tags. | Server-side event streaming from the `audit_log` and `gate_decisions` SQLite tables. |
+| **4. Bounded Discount Negotiation** | When an over-limit discount (e.g., 35% or 90% prompt jailbreak) is requested, the Gating Engine intercepts and modifies the discount to cap at the 20% ceiling and 10% hard margin floor. | Revenue-weighted cart margin formula: $\mu = \frac{\sum (p_i \cdot q_i \cdot m_i)}{\text{subtotal}}$, bounding discount to $\min(20\%, \mu - 10\%)$. |
+| **5. Stock Race Condition Handling** | Simulates execution-time inventory depletion when a customer attempts to claim a low-stock SKU. The transaction is safely blocked and alternative in-stock gear is recommended. | Execution-time atomic stock check in `backend/gate/engine.py`, logging `stock_validation_failed` without crashing. |
+| **6. Full Decision Audit Trail & Exports** | Dedicated inspection console displaying chronological decision history, HMAC-SHA256 signatures, rule triggers, and one-click JSON / CSV export for merchant compliance. | Queryable via `GET /session/{id}/audit/export?format=json\|csv`. |
 
 ---
 
@@ -157,7 +159,7 @@ cd c:\CartMind
 # Activate virtual environment
 .\backend\.venv\Scripts\Activate.ps1
 
-# Run tests (All 26 unit & integration tests)
+# Run tests (All 34 unit, gate & auth tests)
 pytest backend/tests/ -v
 
 # Start FastAPI backend
@@ -181,35 +183,6 @@ Frontend runs at: [http://127.0.0.1:5173](http://127.0.0.1:5173).
 ```powershell
 python scripts/simulate_ab_test.py
 ```
-
----
-
-## Verbatim 3-Minute Video Pitch Script (For Judges)
-
-### 0:00 – 0:45: The Problem & The Non-Negotiable Architecture
-> *"Hi judges, I'm presenting CartMind for Track 01: AI Growth & Agentic Commerce.  
-> The biggest challenge in agentic commerce isn't getting an LLM to recommend products — it's trusting an autonomous model near your revenue. If an LLM has direct write access to your cart or payment gateway, it will hallucinate 50% discounts or sell out-of-stock items.  
-> In CartMind, we implemented a non-negotiable rule: the LLM reasoning layer has **zero write access** to the database and never calls Razorpay directly. It can only propose structured tool calls. Between the model and the money sits our pure-Python Deterministic Gating Engine."*
-
-### 0:45 – 1:30: Live Storefront, Agent Rail & Decision Ledger
-> *(Show browser on http://127.0.0.1:5173)*  
-> *"Here is our split-screen workspace. On the left is our curated catalog with 15 real SKUs. On the right is our CartMind Copilot, powered by Groq's Llama-3.3-70B.  
-> Notice our signature element: the live **Decision Ledger** ticker. When I ask the agent: 'Can you recommend an accessory for my headphones?', the agent proposes an GaN travel charger. The Gating Engine verifies inventory and logs `RECOMMEND ... APPROVED` in gold.  
-> Now watch what happens when I try to push the model: 'Can you give me a 35% discount?'  
-> An un-bounded bot would say yes. Watch our Decision Ledger: `DISCOUNT 35%->20% ... MODIFIED (discount_ceiling)`. The engine computed our cart's revenue-weighted margin, capped the discount to 20%, and guaranteed our 10% margin floor."*
-
-### 1:30 – 2:15: Scripted Failure Injection (Stock Race Condition)
-> *(Click '⚡ Demo: Stock Race Condition')*  
-> *"Razorpay explicitly asked us to show one failure handled gracefully. Let's trigger a real-world stock race condition on camera.  
-> In our database, this USB-C hub has only 2 units left. Another shopper buys the last units right now. When our customer tries to add the hub, our execution-time policy gate catches the depletion, rejects the transaction, and writes `stock_validation_failed` to the audit log.  
-> Look at the agent: instead of crashing or restarting the session, it apologizes in plain English and suggests the StudioPro Mic or Nomad Backpack as in-stock alternatives."*
-
-### 2:15 – 3:00: Conversational Checkout, Audit Panel & Measured Money
-> *(Click Cart -> Proceed to Checkout -> Instant Test Payment Simulation)*  
-> *"When the customer is ready, the agent initiates checkout. We create a Razorpay Test Mode payment link with cryptographic HMAC-SHA256 signature verification.  
-> Finally, let's open the **Audit Panel**. Here, merchants and regulators can inspect every proposal, every rule trigger, and every gate verdict for any session.  
-> In our synthetic benchmark of 30 shopping sessions, CartMind delivered a measured **+₹39.69 AOV lift per order**, achieved a **66.7% upsell acceptance rate**, and intervened in **81.8% of discount requests** with zero unauthorized margin breaches.  
-> That is CartMind: accountable, bounded, and audited commerce. Thank you!"*
 
 ---
 
